@@ -1,8 +1,8 @@
 #!/bin/bash
 # Urano CLI Installer for Mac/Linux
 VERSION="1.0.2"
-REPO="your-username/your-repo-name" # TODO: Update with actual public repo
-BINARY_NAME="uranodesktop"
+REPO="uranotools/uranocli"
+BINARY_NAME="uranocli"
 
 echo "🚀 Installing Urano CLI v$VERSION..."
 

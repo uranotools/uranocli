@@ -6,10 +6,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Powered%20by-UranoCore-blueviolet?style=for-the-badge" alt="UranoCore">
+  <img src="https://img.shields.io/badge/Powered%20by-Urano Project-blueviolet?style=for-the-badge" alt="Urano Project">
   <img src="https://img.shields.io/badge/Runtime-Node.js%2020-green?style=for-the-badge&logo=node.js" alt="Node JS">
   <img src="https://img.shields.io/badge/Interface-TUI-orange?style=for-the-badge" alt="TUI">
-  <img src="https://img.shields.io/badge/License-ISC-blue?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
 </p>
 
 ---
@@ -102,3 +102,43 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
   Desarrollado con ❤️ por <strong>AndyGomezb7</strong><br>
   <a href="https://uranoai.com">sitio web</a> • <a href="https://github.com/andygomezb7/UranoApp">repositorio principal</a>
 </p>
+
+---
+
+## Arquitectura
+
+```
+UranoDesktop/
+├── src/main/
+│   ├── cli.ts              ← Entry point CLI (detecta modo TUI vs comando)
+│   ├── UranoRouter.ts      ← TUI interactivo con slash commands
+│   ├── main.ts             ← Entry point Electron
+│   └── core/
+│       ├── AgentManager.ts       ← CRUD de agentes, routing de mensajes
+│       ├── AgentSession.ts       ← Sesión independiente con streaming
+│       ├── AgentOrchestrator.ts  ← Gestor de sesiones paralelas
+│       ├── SkillRegistry.ts      ← Descubrimiento de herramientas MCP
+│       ├── AIManager.ts          ← Resolución de proveedor/modelo
+│       ├── Router.ts             ← IPC bridge (Electron frontend ↔ core)
+│       └── Security/
+│           └── Vault.ts          ← Gestión de secrets y API Keys
+```
+
+### Persistencia
+Todos los datos del usuario se guardan en `~/.urano/`:
+
+| Archivo | Contenido |
+|---|---|
+| `agents.json` | Configuraciones de agentes |
+| `chat_history/` | Historial de conversaciones |
+| `mcp_vault.json` | API Keys y estado de módulos (Compartido) |
+
+> [!CAUTION]
+> **Seguridad y Cifrado:**
+> - **App de Escritorio:** Usa `safeStorage` (cifrado por hardware del OS). Estas claves **no pueden ser leídas por el CLI** por seguridad del sistema operativo.
+> - **CLI:** Guarda claves en texto plano (`plain:key`). Estas claves **son visibles para ambos entornos**.
+> - **Recomendación:** Si quieres usar tus API Keys en el CLI, configúralas directamente desde la terminal con `mcp config`.
+> - **Ruta Compartida:** El CLI detecta automáticamente la configuración de la App en `AppData/Roaming/UranoDesktop` (Windows) o `Application Support` (Mac).
+
+### Multi-target Shared Core
+Un agente creado en el CLI aparece en Electron y viceversa. El historial de chat es compartido. La única diferencia es el almacenamiento de secrets (ver arriba).
