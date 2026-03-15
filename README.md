@@ -105,25 +105,6 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 ---
 
-## Arquitectura
-
-```
-UranoDesktop/
-├── src/main/
-│   ├── cli.ts              ← Entry point CLI (detecta modo TUI vs comando)
-│   ├── UranoRouter.ts      ← TUI interactivo con slash commands
-│   ├── main.ts             ← Entry point Electron
-│   └── core/
-│       ├── AgentManager.ts       ← CRUD de agentes, routing de mensajes
-│       ├── AgentSession.ts       ← Sesión independiente con streaming
-│       ├── AgentOrchestrator.ts  ← Gestor de sesiones paralelas
-│       ├── SkillRegistry.ts      ← Descubrimiento de herramientas MCP
-│       ├── AIManager.ts          ← Resolución de proveedor/modelo
-│       ├── Router.ts             ← IPC bridge (Electron frontend ↔ core)
-│       └── Security/
-│           └── Vault.ts          ← Gestión de secrets y API Keys
-```
-
 ### Persistencia
 Todos los datos del usuario se guardan en `~/.urano/`:
 
