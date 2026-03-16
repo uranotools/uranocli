@@ -62,6 +62,8 @@ Simplemente ejecuta `uranocli` para entrar en la interfaz de terminal enriquecid
 | Comando | Acción |
 |---|---|
 | `/agent <id>` | Cambia el agente activo (persona) |
+| `/history` | **Nuevo:** Selector interactivo para continuar charlas previas |
+| `/tasks` | Gestiona tus tareas agendadas y autónomas |
 | `/parallel <ids> <p>` | Ejecuta prompt en varios agentes a la vez |
 | `/all <prompt>` | Envía mensaje a todos los agentes |
 | `/cancel` | Detiene la generación actual |
@@ -83,18 +85,21 @@ uranocli run -p "Resume mis correos de hoy"
 
 # Configuración de llaves API
 uranocli mcp config OpenAI API_KEY sk-...
+
+# Ver versión actual
+uranocli --version
 ```
 
 ---
 
 ## 🧠 Tecnología y Arquitectura
 
-Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar consistencia total.
+Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar consistencia total. Los agentes que creas en un entorno están disponibles instantáneamente en el otro.
 
-- **Frontend**: Custom TUI con `readline` y `chalk`.
-- **IA**: Compatible con `Ollama`, `OpenAI`, `Anthropic`, y `OpenRouter`.
+- **IA**: Soporte nativo para OpenRouter, OpenAI, Anthropic y Ollama.
+- **Update System**: Detección inteligente de nuevas versiones al inicio.
 - **Tools**: Basado en el estándar **Model Context Protocol (MCP)**.
-- **Packaging**: Binarios nativos generados con `pkg`.
+- **Packaging**: Binarios nativos de alto rendimiento.
 
 ---
 
@@ -105,40 +110,22 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 ---
 
-## Arquitectura
-
-```
-UranoDesktop/
-├── src/main/
-│   ├── cli.ts              ← Entry point CLI (detecta modo TUI vs comando)
-│   ├── UranoRouter.ts      ← TUI interactivo con slash commands
-│   ├── main.ts             ← Entry point Electron
-│   └── core/
-│       ├── AgentManager.ts       ← CRUD de agentes, routing de mensajes
-│       ├── AgentSession.ts       ← Sesión independiente con streaming
-│       ├── AgentOrchestrator.ts  ← Gestor de sesiones paralelas
-│       ├── SkillRegistry.ts      ← Descubrimiento de herramientas MCP
-│       ├── AIManager.ts          ← Resolución de proveedor/modelo
-│       ├── Router.ts             ← IPC bridge (Electron frontend ↔ core)
-│       └── Security/
-│           └── Vault.ts          ← Gestión de secrets y API Keys
-```
-
-### Persistencia
-Todos los datos del usuario se guardan en `~/.urano/`:
+### Persistencia e Interoperabilidad
+Todos los datos se guardan en `~/.urano/` (o la carpeta de AppData de UranoDesktop) para mantener la sincronía:
 
 | Archivo | Contenido |
 |---|---|
-| `agents.json` | Configuraciones de agentes |
-| `chat_history/` | Historial de conversaciones |
-| `mcp_vault.json` | API Keys y estado de módulos (Compartido) |
+| `agents.json` | Configuraciones de agentes y system prompts. |
+| `chat_history/` | Todas tus conversaciones (compartidas entre App y CLI). |
+| `mcp_vault.json` | API Keys cifradas y estado de los módulos. |
 
 > [!CAUTION]
 > **Seguridad y Cifrado:**
 > - **App de Escritorio:** Usa `safeStorage` (cifrado por hardware del OS). Estas claves **no pueden ser leídas por el CLI** por seguridad del sistema operativo.
 > - **CLI:** Guarda claves en texto plano (`plain:key`). Estas claves **son visibles para ambos entornos**.
 > - **Recomendación:** Si quieres usar tus API Keys en el CLI, configúralas directamente desde la terminal con `mcp config`.
-> - **Ruta Compartida:** El CLI detecta automáticamente la configuración de la App en `AppData/Roaming/UranoDesktop` (Windows) o `Application Support` (Mac).
 
-### Multi-target Shared Core
-Un agente creado en el CLI aparece en Electron y viceversa. El historial de chat es compartido. La única diferencia es el almacenamiento de secrets (ver arriba).
+## 🔄 Actualización
+Para actualizar a la última versión, simplemente vuelve a ejecutar el instalador:
+- **Windows**: `irm get.uranoai.com/win | iex`
+- **Linux/Mac**: `curl -sSL get.uranoai.com/sh | bash`
