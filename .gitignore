@@ -1,0 +1,8 @@
+# Binaries (uploaded as Release Assets, not tracked in Git)
+bin/
+*.exe
+uranocli-linux
+uranocli-macos
+
+# Secrets
+.env
