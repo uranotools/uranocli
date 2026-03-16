@@ -17,7 +17,6 @@
 ## ✨ Características Premium
 
 - 🤖 **Orquestación Multi-Agente**: Chatea con varios agentes en paralelo o haz broadcast.
-- 🕒 **Agentes Autónomos**: Programa tareas futuras o recurrentes. Los agentes se "despiertan" y actúan solos.
 - 🛠 **Ecosistema MCP**: Acceso inmediato a Google Calendar, Gmail, CRM y más.
 - ⚡ **Streaming en Tiempo Real**: Respuestas instantáneas carácter por carácter.
 - 🔒 **Seguridad Flexible**: Soporte para secretos cifrados y local-first.
@@ -31,38 +30,19 @@ Instala la última versión v1.0.2 en un solo paso:
 
 ### Windows (PowerShell)
 ```powershell
-irm https://sh.uranoai.com | iex
+irm https://get.uranoai.com/win | iex
 ```
 
 ### Mac / Linux (Bash/Zsh)
 ```bash
-curl -sSL https://sh.uranoai.com | bash
+curl -sSL https://get.uranoai.com/sh | bash
 ```
-
----
-
-## 🚀 Guía de Inicio
-
-Configura tu entorno en menos de 2 minutos:
-
-1. **Configura tu Proveedor**:
-   ```bash
-   uranocli mcp config Telegram AI_PROVIDER openrouter
-   uranocli mcp config Telegram AI_MODEL openai/gpt-4o-mini
-   ```
-2. **Autenticación (Opcional)**:
-   Si usas un proveedor que requiere Key:
-   ```bash
-   uranocli mcp config Telegram API_KEY sk-...
-   ```
-3. **Lanza el entorno**:
-   Simplemente escribe `uranocli` y presiona Enter.
 
 ---
 
 ## 🎮 Modo Interactivo (TUI)
 
-Ejecuta `uranocli` para entrar en la interfaz de terminal enriquecida.
+Simplemente ejecuta `uranocli` para entrar en la interfaz de terminal enriquecida.
 
 ```text
 ╭──────────────────────────────────────────────────────────────────╮
@@ -82,25 +62,11 @@ Ejecuta `uranocli` para entrar en la interfaz de terminal enriquecida.
 | Comando | Acción |
 |---|---|
 | `/agent <id>` | Cambia el agente activo (persona) |
-| `/tasks` | Gestiona tus tareas agendadas y recurrentes |
-| `/history` | **Nuevo:** Selector premium interactivo para navegar el historial |
 | `/parallel <ids> <p>` | Ejecuta prompt en varios agentes a la vez |
 | `/all <prompt>` | Envía mensaje a todos los agentes |
+| `/cancel` | Detiene la generación actual |
 | `/mcp` | Gestiona tus módulos y herramientas |
 | `/exit` | Cierra la sesión de forma segura |
-
----
-
-## 🕒 Autonomía: schedule_next_action
-
-Ahora puedes pedirle a tus agentes que hagan cosas en el futuro:
-*"Recuérdame revisar el stock de inventario cada 12 horas con el motivo 'Monitor Stock'"*
-
-El agente usará la herramienta `schedule_next_action` y podrás ver el progreso con `/tasks`.
-
-### Visibilidad Total
-- **Notificaciones 🔔**: Recibe avisos en tiempo real cuando una tarea en segundo plano se completa.
-- **Historial Interactivo**: Usa `/history` para navegar por todas las conversaciones usando flechas y Enter. Ideal para consultar los resultados de tareas que se ejecutaron mientras no estabas.
 
 ---
 
@@ -127,8 +93,8 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 - **Frontend**: Custom TUI con `readline` y `chalk`.
 - **IA**: Compatible con `Ollama`, `OpenAI`, `Anthropic`, y `OpenRouter`.
-- **Autonomía**: Motor `TaskScheduler` con persistencia local.
 - **Tools**: Basado en el estándar **Model Context Protocol (MCP)**.
+- **Packaging**: Binarios nativos generados con `pkg`.
 
 ---
 
@@ -139,21 +105,40 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 ---
 
+## Arquitectura
+
+```
+UranoDesktop/
+├── src/main/
+│   ├── cli.ts              ← Entry point CLI (detecta modo TUI vs comando)
+│   ├── UranoRouter.ts      ← TUI interactivo con slash commands
+│   ├── main.ts             ← Entry point Electron
+│   └── core/
+│       ├── AgentManager.ts       ← CRUD de agentes, routing de mensajes
+│       ├── AgentSession.ts       ← Sesión independiente con streaming
+│       ├── AgentOrchestrator.ts  ← Gestor de sesiones paralelas
+│       ├── SkillRegistry.ts      ← Descubrimiento de herramientas MCP
+│       ├── AIManager.ts          ← Resolución de proveedor/modelo
+│       ├── Router.ts             ← IPC bridge (Electron frontend ↔ core)
+│       └── Security/
+│           └── Vault.ts          ← Gestión de secrets y API Keys
+```
+
 ### Persistencia
-Todos los datos del usuario se guardan en `~/.urano/` (o la carpeta de AppData de UranoDesktop):
+Todos los datos del usuario se guardan en `~/.urano/`:
 
 | Archivo | Contenido |
 |---|---|
 | `agents.json` | Configuraciones de agentes |
-| `local_chats.json` | Historial de conversaciones compartido |
-| `tasks.json` | Tareas agendadas y cronograma autónomo |
-| `mcp_vault.json` | API Keys y estado de módulos |
+| `chat_history/` | Historial de conversaciones |
+| `mcp_vault.json` | API Keys y estado de módulos (Compartido) |
 
 > [!CAUTION]
 > **Seguridad y Cifrado:**
-> - **App de Escritorio:** Usa `safeStorage` (cifrado por hardware del OS). Estas claves **no pueden ser leídas por el CLI**.
+> - **App de Escritorio:** Usa `safeStorage` (cifrado por hardware del OS). Estas claves **no pueden ser leídas por el CLI** por seguridad del sistema operativo.
 > - **CLI:** Guarda claves en texto plano (`plain:key`). Estas claves **son visibles para ambos entornos**.
-> - **Recomendación:** Configura las keys desde el CLI con `mcp config` para que funcionen en todas partes.
+> - **Recomendación:** Si quieres usar tus API Keys en el CLI, configúralas directamente desde la terminal con `mcp config`.
+> - **Ruta Compartida:** El CLI detecta automáticamente la configuración de la App en `AppData/Roaming/UranoDesktop` (Windows) o `Application Support` (Mac).
 
 ### Multi-target Shared Core
-Un agente creado en el CLI aparece en Electron y viceversa. El historial de chat y las tareas agendadas son totalmente compartidos.
+Un agente creado en el CLI aparece en Electron y viceversa. El historial de chat es compartido. La única diferencia es el almacenamiento de secrets (ver arriba).
