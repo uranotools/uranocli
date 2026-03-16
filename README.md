@@ -26,7 +26,7 @@
 
 ## 📥 Instalación Rápida
 
-Instala la última versión v1.0.3 en un solo paso:
+Instala la última versión v1.0.4 en un solo paso:
 
 ### Windows (PowerShell)
 ```powershell
@@ -46,7 +46,7 @@ Simplemente ejecuta `uranocli` para entrar en la interfaz de terminal enriquecid
 
 ```text
 ╭──────────────────────────────────────────────────────────────────╮
-│  🚀 Urano CLI  v1.0.3                                           │
+│  🚀 Urano CLI  v1.0.4                                           │
 │                                                                  │
 │  Agentes:   4 registrados   │  Skills:  34 cargados             │
 │  Proveedor: openai                                               │

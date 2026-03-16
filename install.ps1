@@ -1,5 +1,5 @@
 # Urano CLI Installer for Windows
-$VERSION = "1.0.3"
+$VERSION = "1.0.4"
 $REPO = "uranotools/uranocli"
 $BINARY_NAME = "uranocli-win.exe"
 
