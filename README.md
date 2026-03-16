@@ -1,9 +1,6 @@
+# <p align="center">🚀 Urano CLI</p>
+
 <p align="center">
-  <br>
-  <font size="7">🚀</font>
-  <br>
-  <font size="6"><b>Urano CLI</b></font>
-  <br>
   <strong>Agentes de IA ultrapotentes directamente en tu terminal.</strong><br>
   <em>Headless, ligero, y conectado al ecosistema Urano.</em>
 </p>
@@ -19,20 +16,17 @@
 
 ## ✨ Características Premium
 
-Urano CLI es un **centro de orquestación autónomo** diseñado para la máxima productividad.
-
 - 🤖 **Orquestación Multi-Agente**: Chatea con varios agentes en paralelo o haz broadcast.
-- 📐 **Layout 100% Responsivo**: Interfaz inteligente que aprovecha todo el alto y ancho de tu terminal.
-- 📝 **Markdown Nativo**: Soporte completo para bloques de código, tablas y formato enriquecido.
-- 🧩 **Persistencia Autónoma**: Tareas programadas que corren de fondo incluso al cerrar la terminal.
-- 🛠 **Ecosistema MCP**: Acceso directo a Google Calendar, Gmail, CRM y herramientas personalizadas.
-- ⚡ **Sincronización Real**: Interoperabilidad instantánea entre el CLI y la App Desktop.
+- 🛠 **Ecosistema MCP**: Acceso inmediato a Google Calendar, Gmail, CRM y más.
+- ⚡ **Streaming en Tiempo Real**: Respuestas instantáneas carácter por carácter.
+- 🔒 **Seguridad Flexible**: Soporte para secretos cifrados y local-first.
+- 📦 **Zero Dependencies**: Binarios compilados, no necesitas instalar nada más.
 
 ---
 
 ## 📥 Instalación Rápida
 
-Obtén la última versión v1.0.4 en segundos:
+Instala la última versión v1.0.5 en un solo paso:
 
 ### Windows (PowerShell)
 ```powershell
@@ -50,73 +44,62 @@ curl -sSL https://get.uranoai.com/sh | bash
 
 Simplemente ejecuta `uranocli` para entrar en la interfaz de terminal enriquecida.
 
-> [!TIP]
-> **Layout Adaptativo:** Si redimensionas tu ventana, Urano reajusta automáticamente el número de mensajes visibles y el área de entrada.
+```text
+╭──────────────────────────────────────────────────────────────────╮
+│  🚀 Urano CLI  v1.0.5                                           │
+│                                                                  │
+│  Agentes:   4 registrados   │  Skills:  34 cargados             │
+│  Proveedor: openai                                               │
+│                                                                  │
+│  Escribe tu mensaje o usa /help para ver comandos.              │
+╰──────────────────────────────────────────────────────────────────╯
 
-### Comandos Slash ⚡ (Dentro del Chat)
+🤖 default › _
+```
+
+### Comandos Slash ⚡
 
 | Comando | Acción |
 |---|---|
-| `/help` | Muestra la ayuda interactiva |
 | `/agent <id>` | Cambia el agente activo (persona) |
-| `/history` | Abre el selector de conversaciones previas |
+| `/history` | **Nuevo:** Selector interactivo para continuar charlas previas |
 | `/tasks` | Gestiona tus tareas agendadas y autónomas |
-| `/parallel <ids> <p>` | Ejecuta un prompt en varios agentes a la vez |
-| `/all <prompt>` | Envía un mensaje a todos los agentes registrados |
-| `/clear` | Limpia la pantalla del chat |
-| `/cancel` | Detiene la generación de respuesta actual |
-| `/mcp` | Muestra el estado y herramientas de módulos cargados |
-| `/exit` | Cierra la interfaz de forma segura |
+| `/parallel <ids> <p>` | Ejecuta prompt en varios agentes a la vez |
+| `/all <prompt>` | Envía mensaje a todos los agentes |
+| `/cancel` | Detiene la generación actual |
+| `/mcp` | Gestiona tus módulos y herramientas |
+| `/exit` | Cierra la sesión de forma segura |
 
 ---
 
 ## 🛠️ Modo Experto (Comandos Directos)
 
-Ideal para scripts, CI/CD y automatizaciones avanzadas.
+Ideal para scripts, CI/CD y automatizaciones.
 
-### Chat & Ejecución 🚀
-- `uranocli chat [-a id]` - Chat interactivo con un agente específico.
-- `uranocli chat --all` - Chat broadcast (mismo mensaje a todos).
-- `uranocli run -p "msg" [-a id]` - Ejecuta un prompt y devuelve el resultado.
-- `uranocli run-parallel -p "msg" -a a,b` - Ejecución paralela con streaming.
+```bash
+# Chat directo con un agente
+uranocli chat -a soporte
 
-### Sesiones Independientes 🔄
-- `uranocli session new <agentId>` - Lanza una nueva sesión en background.
-- `uranocli session list` - Lista todas las sesiones activas en el sistema.
-- `uranocli session attach <sessionId>` - Conecta tu terminal a una sesión en curso.
-- `uranocli session cancel <sessionId>` - Cancela una ejecución en background.
+# Ejecución rápida de una tarea
+uranocli run -p "Resume mis correos de hoy"
 
-### Gestión de Agentes 🤖
-- `uranocli agent list` - Lista todos los agentes disponibles.
-- `uranocli agent create <id>` - Asistente interactivo para crear un agente.
-- `uranocli agent edit <id>` - Modifica la configuración de un agente.
-- `uranocli agent delete <id>` - Elimina un agente del registro.
+# Configuración de llaves API
+uranocli mcp config OpenAI API_KEY sk-...
 
-### MCP & Módulos 📦
-- `uranocli mcp list` - Muestra módulos habilitados/deshabilitados.
-- `uranocli mcp enable/disable <mod>` - Gestiona el estado de un módulo.
-- `uranocli mcp config <mod> <key> <val>` - Configura credenciales (API Keys).
-- `uranocli mcp tools` - Detalla todas las herramientas disponibles.
-- `uranocli mcp status` - Verifica el servidor local de Urano.
-
-### Configuración General ⚙️
-- `uranocli config get` - Muestra la URL del backend y estado del token.
-- `uranocli config set <url|token> <val>` - Actualiza la configuración global.
-- `uranocli --daemon` - **Modo Demonio:** Inicia solo el procesador de tareas de fondo.
-- `uranocli --version` - Muestra la versión actual instalada.
+# Ver versión actual
+uranocli --version
+```
 
 ---
 
 ## 🧠 Tecnología y Arquitectura
 
-Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar consistencia total.
-
-> [!IMPORTANT]
-> **Interoperabilidad:** Los agentes y el historial son compartidos. Si inicias una tarea en la TUI, puedes ver el progreso en la App de Escritorio y viceversa.
+Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar consistencia total. Los agentes que creas en un entorno están disponibles instantáneamente en el otro.
 
 - **IA**: Soporte nativo para OpenRouter, OpenAI, Anthropic y Ollama.
-- **Tools**: Basado completamente en el estándar **Model Context Protocol (MCP)**.
-- **Daemon Mode**: Permite que Urano siga ejecutando tareas agendadas sin necesidad de tener una terminal abierta.
+- **Update System**: Detección inteligente de nuevas versiones al inicio.
+- **Tools**: Basado en el estándar **Model Context Protocol (MCP)**.
+- **Packaging**: Binarios nativos de alto rendimiento.
 
 ---
 
@@ -127,17 +110,22 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 ---
 
-### 🔒 Privacidad y Seguridad
+### Persistencia e Interoperabilidad
+Todos los datos se guardan en `~/.urano/` (o la carpeta de AppData de UranoDesktop) para mantener la sincronía:
+
 | Archivo | Contenido |
 |---|---|
-| `~/.urano/agents.json` | Tus agentes personalizados. |
-| `~/.urano/local_chats.json` | Historial completo de conversaciones. |
-| `~/.urano/mcp_vault.json` | API Keys y secretos (Plain-Text en CLI para compatibilidad). |
+| `agents.json` | Configuraciones de agentes y system prompts. |
+| `chat_history/` | Todas tus conversaciones (compartidas entre App y CLI). |
+| `mcp_vault.json` | API Keys cifradas y estado de los módulos. |
 
 > [!CAUTION]
-> **Cifrado:** Por razones de interoperabilidad con scripts, el CLI guarda las API Keys en texto plano dentro de tu carpeta de usuario. Usa el comando `mcp config` para gestionarlas de forma segura.
+> **Seguridad y Cifrado:**
+> - **App de Escritorio:** Usa `safeStorage` (cifrado por hardware del OS). Estas claves **no pueden ser leídas por el CLI** por seguridad del sistema operativo.
+> - **CLI:** Guarda claves en texto plano (`plain:key`). Estas claves **son visibles para ambos entornos**.
+> - **Recomendación:** Si quieres usar tus API Keys en el CLI, configúralas directamente desde la terminal con `mcp config`.
 
 ## 🔄 Actualización
-Simplemente vuelve a ejecutar el instalador para obtener las últimas mejoras:
+Para actualizar a la última versión, simplemente vuelve a ejecutar el instalador:
 - **Windows**: `irm get.uranoai.com/win | iex`
 - **Linux/Mac**: `curl -sSL get.uranoai.com/sh | bash`
