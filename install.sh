@@ -1,6 +1,6 @@
 #!/bin/bash
 # Urano CLI Installer for Mac/Linux
-VERSION="1.0.2"
+VERSION="1.0.3"
 REPO="uranotools/uranocli"
 BINARY_NAME="uranocli"
 
