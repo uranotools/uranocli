@@ -18,7 +18,9 @@
 
 - 🤖 **Orquestación Multi-Agente**: Chatea con varios agentes en paralelo o haz broadcast.
 - 🛠 **Ecosistema MCP**: Acceso inmediato a Google Calendar, Gmail, CRM y más.
-- ⚡ **Streaming en Tiempo Real**: Respuestas instantáneas carácter por carácter.
+- ⚡ **Continuidad Absoluta**: Urano nunca olvida. Puedes cerrar la sesión y volver exactamente donde estabas; el asistente mantiene el estado de su "pensamiento".
+- 🧠 **Memoria de Largo Alcance**: Indexación inteligente de tus archivos locales y sesiones pasadas para darte contexto relevante hoy mismo.
+- 📅 **Planificación Autónoma**: Urano crea planes de acción, los ejecuta paso a paso y puede programar tareas para que se completen solas en el futuro.
 - 🔒 **Seguridad Flexible**: Soporte para secretos cifrados y local-first.
 - 📦 **Zero Dependencies**: Binarios compilados, no necesitas instalar nada más.
 
@@ -70,6 +72,16 @@ Simplemente ejecuta `uranocli` para entrar en la interfaz de terminal enriquecid
 | `/mcp` | Gestiona tus módulos y herramientas |
 | `/exit` | Cierra la sesión de forma segura |
 
+### ⌨️ Atajos de Teclado
+
+| Tecla | Acción |
+|---|---|
+| `Ctrl+S` | Mostrar/ocultar la barra lateral (Agentes e Historial) |
+| `Tab` | Alternar entre modo "Pensamiento" (ver logs MCP) y modo estándar |
+| `↑ / ↓` | Navegar por el historial de inputs o listas de selección |
+| `PageUp / PageDown` | Desplazar el scroll del chat |
+
+
 ---
 
 ## 🛠️ Modo Experto (Comandos Directos)
@@ -98,8 +110,16 @@ Urano CLI utiliza un núcleo compartido con la versión Desktop para garantizar 
 
 - **IA**: Soporte nativo para OpenRouter, OpenAI, Anthropic y Ollama.
 - **Update System**: Detección inteligente de nuevas versiones al inicio.
-- **Tools**: Basado en el estándar **Model Context Protocol (MCP)**.
+- **Tools**: Basado en el estándar **Model Context Protocol (MCP)** con integraciones nativa para **Google Calendar, Gmail, Todoist** y **Asistente de Código**.
 - **Packaging**: Binarios nativos de alto rendimiento.
+
+---
+
+## 🛠 Solución de Problemas
+
+- **Ollama no responde**: Asegúrate de que Ollama esté corriendo localmente (`ollama serve`).
+- **Error de API Key**: Verifica tus credenciales con `uranocli mcp config` o en el Vault.
+- **Chat lento**: Revisa tu conexión a internet o el rendimiento de tu modelo local.
 
 ---
 
